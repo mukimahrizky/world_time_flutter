@@ -18,8 +18,21 @@ class _ChooseLocatonState extends State<ChooseLocaton> {
     WorldTime(url: 'America/Chicago', location: 'Chicago', flag: 'usa.png'),
     WorldTime(url: 'America/New_York', location: 'New York', flag: 'usa.png'),
     WorldTime(url: 'Asia/Seoul', location: 'Seoul', flag: 'south_korea.png'),
-    WorldTime(url: 'Asia/Jakarta', location: 'Jakarta', flag: 'indonesia.png'),
+    WorldTime(url: 'Asia/Makassar', location: 'Makassar', flag: 'indonesia.png'),
   ];
+
+  Future<void> updateTime(index) async {
+    WorldTime instance = locations[index];
+    await instance.getTime();
+
+    // navigate to home screen
+    Navigator.pop(context, {
+      'location': instance.location,
+      'flag': instance.flag,
+      'time': instance.time,
+      'isDaytime' : instance.isDaytime
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +52,7 @@ class _ChooseLocatonState extends State<ChooseLocaton> {
             child: Card(
               child: ListTile(
                 onTap: () {
-                  print(locations[index].location);
+                  updateTime(index);
                 },
                 title: Text(locations[index].location),
                 leading: CircleAvatar(
